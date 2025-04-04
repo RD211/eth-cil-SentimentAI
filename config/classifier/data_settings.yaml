@@ -1,0 +1,11 @@
+data:
+  path: ./data/train
+
+  # Test split size
+  test_size: 0.0
+
+  prompt: prompt_templates/sentiment2.txt
+  
+  seed: 42
+  num_proc: 32
+  max_seq_length: 1024
