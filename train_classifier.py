@@ -41,6 +41,7 @@ class CustomSentimentTrainer(Trainer):
 
 
     
+# hydra is a decorator* that reads the config and passes it as an object to the train() function
 @hydra.main(version_base=None, config_path="config/classifier", config_name="train")
 def train(cfg: DictConfig) -> None:
     
@@ -64,6 +65,7 @@ def train(cfg: DictConfig) -> None:
     
     dataset, collator = get_dataset(cfg, tokenizer=tokenizer)
     
+    # this has a randomly initialised classification head, on top of the pretrained base model
     model = AutoModelForSequenceClassification.from_pretrained(
         cfg.model.model_name,
         num_labels=3,
@@ -75,8 +77,11 @@ def train(cfg: DictConfig) -> None:
     model.config.use_cache = False
     model.config.pad_token_id = tokenizer.pad_token_id
     
+    # initialise weight of new llm_head
     if cfg.model.use_llm_head_weights:
         print("Loading llm weights for head initialization.")
+
+        # this has a head that produces logits over the entire vocabulary
         llm = AutoModelForCausalLM.from_pretrained(
             cfg.model.llm_head_model_name,
             token=os.getenv('HF_TOKEN'),
@@ -84,10 +89,14 @@ def train(cfg: DictConfig) -> None:
         ).to('cuda')
         
         classes = list(label2id.keys())
+        # This finds the token ids (from the vocabulary) of the class strings "neutral", "positive" and "negative". If the class has multiple tokens, then it picks the token of the last token. 
         tokens = [tokenizer.encode(c)[-1] for c in classes]
 
+        # then pick the weight values from the LLM with an head over the entire vocabulary, and pick three rows, each corresponding to a token of a class
         model.score.weight = nn.Parameter(llm.lm_head.weight[tokens].clone())
         print("Updated weights of model with lm_head.")
+
+        # remove the model as we no longer need it
         del llm
         gc.collect()
         torch.cuda.empty_cache()
@@ -95,6 +104,7 @@ def train(cfg: DictConfig) -> None:
     
     lora = cfg.model.lora_config
 
+    # Use LoRa
     if lora.enabled:
         peft_config = LoraConfig(
             task_type=TaskType.SEQ_CLS, 
