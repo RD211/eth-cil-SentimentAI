@@ -27,3 +27,5 @@ python test.py
 ```bash
 accelerate launch --config_file deepspeed/1GPU.yaml train_rl.py --config-name 1.5b.yaml
 ```
+
+### I just needed a change mate
