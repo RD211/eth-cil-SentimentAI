@@ -38,7 +38,7 @@ logging:
   wandb: True
   logging_steps: 1
   project_name: Sentiments
-  entity: rd211 
+  entity: kauuu 
 
 
 seed: 43
