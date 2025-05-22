@@ -1,0 +1,6 @@
+run_name: "SmolLM2-1.7B-Instruct"
+
+model:
+  model_name: "HuggingFaceTB/SmolLM2-1.7B-Instruct"
+  use_llm_head_weights: False
+  is_instruct: True

@@ -3,8 +3,6 @@ output
 outputs
 .env
 __pycache__
-.auto_gpu
-gpu_names_cache.json
 checkpoints
 tensorboard
 trainer_output
@@ -12,3 +10,4 @@ auto_gpu.py
 data/test/
 data/train/
 data/validation/
+results/

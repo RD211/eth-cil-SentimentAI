@@ -1,6 +1,0 @@
-You are tasked with indetifying if a certain review is negative, neutral or positive.
-Here is the review:
-{}
-
-Now classify it, output only negative, neutral or positive.
-Answer:

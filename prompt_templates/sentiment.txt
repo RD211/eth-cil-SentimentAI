@@ -1,8 +1,6 @@
 You are tasked with indetifying if a certain review is negative, neutral or positive.
-If the review is negative output \\boxed{{negative}}, if neutral output \\boxed{{neutral}} and if positive \\boxed{{positive}}.
-Think step by step to come up with the correct answer.
-
 Here is the review:
 {}
 
-Now classify it.
+Now classify it, output only negative, neutral or positive.
+Answer:

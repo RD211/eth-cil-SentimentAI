@@ -1,0 +1,5 @@
+run_name: "SmolLM2-360M"
+
+model:
+  model_name: "HuggingFaceTB/SmolLM2-360M"
+  use_llm_head_weights: False

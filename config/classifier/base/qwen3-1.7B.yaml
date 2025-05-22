@@ -1,0 +1,5 @@
+run_name: "Qwen3-1.7B-Base"
+
+model:
+  model_name: "Qwen/Qwen3-1.7B-Base"
+  use_llm_head_weights: False
