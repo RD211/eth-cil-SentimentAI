@@ -1,0 +1,8 @@
+You are tasked with identifying if a certain review is negative, neutral or positive.
+
+{% for example in examples %}
+Review: {{ example.review }}
+Classification: {{ example.classification }}
+{% endfor %}
+Review: {{ review }}
+Classification:

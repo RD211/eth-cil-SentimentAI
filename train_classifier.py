@@ -23,6 +23,7 @@ from transformers import Trainer
 
 from hydra.core.config_store import ConfigStore
 from config.train_classifier import Config as ClassifierConfig
+from rag import EmbeddingStore
 
 cs = ConfigStore.instance()
 cs.store(name="config", node=ClassifierConfig)
@@ -76,6 +77,8 @@ def train(cfg: ClassifierConfig) -> None:
         tokenizer.pad_token = tokenizer.eos_token
 
     dataset, collator = get_dataset(cfg, tokenizer=tokenizer)
+
+
 
     model = AutoModelForSequenceClassification.from_pretrained(
         cfg.model.model_name,

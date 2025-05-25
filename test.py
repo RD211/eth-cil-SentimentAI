@@ -80,6 +80,24 @@ def main():
         action="store_true",
         help="Use LLM model for inference by replacing head.",
     )
+    # rag parameters k number of examples to use and if we use rag
+    parser.add_argument(
+        "--rag_k",
+        type=int,
+        default=5,
+        help="Number of examples to use for RAG",
+    )
+    parser.add_argument(
+        "--rag_out_of",
+        type=int,
+        default=5,
+        help="Number of examples to use for RAG",
+    )
+    parser.add_argument(
+        "--rag",
+        action="store_true",
+        help="Use RAG for inference",
+    )
 
     args = parser.parse_args()
 
@@ -89,9 +107,20 @@ def main():
     # Load the validation and test datasets.
     val_dataset = load_from_disk("data/validation")
 
+    rag_dataset = None
+    if args.rag:
+        rag_dataset = load_from_disk("data/train")
+
+
     # Load all models and a common tokenizer (using the first model's tokenizer)
     models = []
+    map_of_models = {}
     for m in model_names:
+        if m in map_of_models:
+            model = map_of_models[m]
+            models.append(model)
+            continue
+
         model = AutoModelForSequenceClassification.from_pretrained(
             m, 
             torch_dtype=torch.bfloat16, 
@@ -122,6 +151,8 @@ def main():
             gc.collect()
             torch.cuda.empty_cache()
 
+        map_of_models[m] = model
+
 
     tokenizers = [AutoTokenizer.from_pretrained(model_names[i]) for i in range(len(model_names))]
     # For each tokenizer we set pad token if not already set.
@@ -137,10 +168,16 @@ def main():
 
     cfg.data.path = "./data/validation"
     cfg.model.is_instruct = args.instruct
+    cfg.rag.use_rag = args.rag
+    cfg.rag.k = args.rag_k
+    cfg.rag.out_of = args.rag_out_of
+
+    if args.rag:
+        cfg.data.prompt = "prompt_templates/sentiment_kshot.txt"
     
     ds_vals = []
     for i in range(len(model_names)):
-        ds_val, _ = get_dataset(cfg, tokenizer=tokenizers[i])
+        ds_val, _ = get_dataset(cfg, tokenizer=tokenizers[i], rag_dataset=rag_dataset)
         ds_val = ds_val["train"].batch(batch_size)
         ds_vals.append(ds_val)
 
@@ -195,11 +232,14 @@ def main():
     # -----------------------
     cfg.data.path = "./data/test"
     cfg.model.is_instruct = args.instruct
+    cfg.rag.use_rag = args.rag
+    cfg.rag.k = args.rag_k
+
 
     ds_tests = []
 
     for i in range(len(model_names)):
-        ds_test, _ = get_dataset(cfg, tokenizer=tokenizers[i])
+        ds_test, _ = get_dataset(cfg, tokenizer=tokenizers[i], rag_dataset=rag_dataset)
         ds_test = ds_test["train"].batch(batch_size)
 
         ds_tests.append(ds_test)

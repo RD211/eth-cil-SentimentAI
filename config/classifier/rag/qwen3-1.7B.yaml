@@ -1,0 +1,12 @@
+run_name: "Qwen3-1.7B-Base-RAG"
+
+model:
+  model_name: "Qwen/Qwen3-1.7B-Base"
+  use_llm_head_weights: False
+
+
+rag:
+  use_rag: True
+
+data:
+  prompt: "prompt_templates/sentiment_kshot.txt"

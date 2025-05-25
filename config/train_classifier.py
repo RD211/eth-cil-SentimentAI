@@ -51,7 +51,7 @@ class DataConfig:
     test_size: float = 0.0
     prompt: str = "prompt_templates/sentiment.txt"
     seed: int = 42
-    num_proc: int = 32
+    num_proc: int = 8
     max_seq_length: int = 1024
 
 
@@ -62,6 +62,13 @@ class LoggingConfig:
     project_name: str = "Sentiments"
     entity: str = "cil-sentiment-ai"
 
+@dataclass
+class RAGConfig:
+    use_rag: bool = False
+    k: int = 5
+    out_of: int = 5
+    embedding_model: str = "jinaai/jina-embeddings-v3"
+    data_percentage_reserve: float = 0.25
 
 @dataclass
 class Config:
@@ -70,5 +77,6 @@ class Config:
     train: TrainConfig = field(default_factory=TrainConfig)
     logging: LoggingConfig = field(default_factory=LoggingConfig)
     data: DataConfig = field(default_factory=DataConfig)
+    rag: RAGConfig = field(default_factory=RAGConfig)
     seed: int = 42
     defaults: List[str] = field(default_factory=lambda: ["_self_"])

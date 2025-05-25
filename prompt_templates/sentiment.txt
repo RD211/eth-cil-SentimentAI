@@ -1,4 +1,4 @@
-You are tasked with indetifying if a certain review is negative, neutral or positive.
+You are tasked with identifying if a certain review is negative, neutral or positive.
 Here is the review:
 {}
 
