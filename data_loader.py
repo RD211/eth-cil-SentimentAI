@@ -4,7 +4,6 @@ from datasets import DatasetDict
 from omegaconf import DictConfig
 from datasets import load_from_disk
 from transformers import DataCollatorWithPadding
-#jinja2 template
 from jinja2 import Template
 
 id2label = {0: "negative", 1: "neutral", 2: "positive"}
@@ -71,8 +70,8 @@ def get_dataset(cfg: DictConfig, tokenizer=None, rag_dataset=None):
     rag_examples = None
     if cfg.rag.use_rag:
         print("Loading embedding store")
-        # We split the dataset into two parts. rag_dataset and train_dataset
 
+        # We split the dataset into two parts. rag_dataset and train_dataset
         if rag_dataset is None:
             dataset = dataset.train_test_split(test_size=cfg.rag.data_percentage_reserve, seed=cfg.data.seed)
             rag_dataset = dataset["test"]

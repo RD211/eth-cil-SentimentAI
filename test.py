@@ -111,8 +111,6 @@ def main():
     if args.rag:
         rag_dataset = load_from_disk("data/train")
 
-
-    # Load all models and a common tokenizer (using the first model's tokenizer)
     models = []
     map_of_models = {}
     for m in model_names:
@@ -251,7 +249,6 @@ def main():
     verdicts = [id2label[i] for i in verdicts]
     print("Test sample verdicts:", verdicts[:10])
 
-    # Flatten the test IDs
     ids_ = ds_test["id"]
     ids = []
     for id_list in ids_:
