@@ -23,6 +23,7 @@ python train_classifier.py --config-path=config/classifier/rag --config-name "qw
 python train_classifier.py --config-path=config/classifier/rag --config-name "smollm2-1.7B"
 python train_classifier.py --config-path=config/classifier/rag --config-name "qwen3-1.7B"
 
+# Instruct Rag models
 python train_classifier.py --config-path=config/classifier/rag --config-name "smollm2-135M" run_name="SmolLM2-135M-Instruct-RAG" model.model_name="HuggingFaceTB/SmolLM2-135M-Instruct" +model.is_instruct=True
 python train_classifier.py --config-path=config/classifier/rag --config-name "smollm2-360M" run_name="SmolLM2-360M-Instruct-RAG" model.model_name="HuggingFaceTB/SmolLM2-360M-Instruct" +model.is_instruct=True
 python train_classifier.py --config-path=config/classifier/rag --config-name "smollm2-1.7B" run_name="SmolLM2-1.7B-Instruct-RAG" model.model_name="HuggingFaceTB/SmolLM2-1.7B-Instruct" +model.is_instruct=True
@@ -47,8 +48,6 @@ python test.py --models "HuggingFaceTB/SmolLM2-360M-Instruct" --output_file "res
 python test.py --models "HuggingFaceTB/SmolLM2-135M-Instruct" --output_file "results/smollm2-135M-Instruct-Unfinetuned.csv" --is_llm --instruct
 python test.py --models "Qwen/Qwen3-0.6B" --output_file "results/qwen3-0.6B-Instruct-Unfinetuned.csv" --is_llm --instruct
 python test.py --models "Qwen/Qwen3-1.7B" --output_file "results/qwen3-1.7B-Instruct-Unfinetuned.csv" --is_llm --instruct
-
-
 
 # Base models
 python test.py --models "rd211/SmolLM2-1.7B" --output_file "results/smollm2-1.7B.csv"
@@ -82,3 +81,14 @@ python test.py --models "HuggingFaceTB/SmolLM2-360M" --output_file "results/smol
 python test.py --models "HuggingFaceTB/SmolLM2-135M" --output_file "results/smollm2-135M-Unfinetuned-RAG.csv" --is_llm --rag
 python test.py --models "Qwen/Qwen3-0.6B-Base" --output_file "results/qwen3-0.6B-Unfinetuned-RAG.csv" --is_llm --rag
 python test.py --models "Qwen/Qwen3-1.7B-Base" --output_file "results/qwen3-1.7B-Unfinetuned-RAG.csv" --is_llm --rag
+
+
+
+#############################################
+HeadInit ablation
+#############################################
+python train_classifier.py --config-path=config/classifier/base --config-name "smollm2-1.7B" model.use_llm_head_weights=True run_name="SmolLM2-1.7B-Base-HeadInit"
+python train_classifier.py --config-path=config/classifier/instruct --config-name "smollm2-1.7B" model.use_llm_head_weights=True run_name="SmolLM2-1.7B-Instruct-HeadInit"
+python train_classifier.py --config-path=config/classifier/rag --config-name "smollm2-1.7B" run_name="SmolLM2-1.7B-Instruct-RAG-HeadInit" model.model_name="HuggingFaceTB/SmolLM2-1.7B-Instruct" +model.is_instruct=True model.use_llm_head_weights=True
+python train_classifier.py --config-path=config/classifier/rag --config-name "smollm2-1.7B" model.use_llm_head_weights=True run_name="SmolLM2-1.7B-RAG-HeadInit"
+

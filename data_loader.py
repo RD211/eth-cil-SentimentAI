@@ -37,7 +37,10 @@ def get_prompt(review: list[str], prompt_template_path: str, is_instruct: bool, 
         messages = [
             {"role": "user", "content": prompt},
         ]
-        text = tokenizer.apply_chat_template(messages, add_generation_prompt=True, tokenize=False)
+        if 'Qwen/Qwen3-0.6B' == str(tokenizer.name_or_path) or 'Qwen/Qwen3-1.7B' == str(tokenizer.name_or_path):
+            text = tokenizer.apply_chat_template(messages, add_generation_prompt=True, tokenize=False, enable_thinking=False)
+        else:
+            text = tokenizer.apply_chat_template(messages, add_generation_prompt=True, tokenize=False)
         return text
     else:
         return prompt
