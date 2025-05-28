@@ -59,22 +59,22 @@ Configuration for training is managed via Hydra. Refer to the `config/` director
     The `all_runs.sh` script also provides testing examples.
 
     **Basic Testing Examples:**
-    *   Test an unfine-tuned base LLM from Hugging Face:
+    *   Test an unfine-tuned base LLM :
         ```bash
         python test.py --models "HuggingFaceTB/SmolLM2-1.7B" --output_file "results/smollm2-1.7B-Unfinetuned.csv" --is_llm
         ```
-    *   Test a fine-tuned model (replace `your-hf-username/model-name` with your actual model path on the Hub or a local path):
+    *   Test a fine-tuned model:
         ```bash
-        python test.py --models "your-hf-username/SmolLM2-1.7B-Finetuned" --output_file "results/smollm2-1.7B-Finetuned.csv"
+        python test.py --models "rd211/SmolLM2-1.7B-Finetuned" --output_file "results/smollm2-1.7B-Finetuned.csv"
         ```
     *   Test a fine-tuned instruction-tuned model with RAG:
         ```bash
-        python test.py --models "your-hf-username/SmolLM2-1.7B-Instruct-RAG" --output_file "results/smollm2-1.7B-instruct-rag.csv" --rag --instruct
+        python test.py --models "rd211/SmolLM2-1.7B-Instruct-RAG" --output_file "results/smollm2-1.7B-instruct-rag.csv" --rag --instruct
         ```
 
 ## 🤗 Hugging Face Hub Resources & Model Performance
 
-This section provides links to the Hugging Face Hub for fine-tuned models produced by this project, alongside their performance scores from the paper.
+This section provides links to the Hugging Face Hub for fine-tuned models produced by this project.
 
 ### SmolLM2 Family
 
@@ -129,7 +129,5 @@ This project was a collaborative effort by:
 Correspondence:
 *   Kaushik Karthikeyan: `kkarthikeyan@ethz.ch`
 *   Sarah Verreault: `sverreault@ethz.ch`
-*   Piotr Cichon: `pcichon@student.ethz.ch`
-*   David Dinucu-Jianu: `ddinucu@student.ethz.ch`
-
-Computational Intelligence Lab FS2025, ETH Zurich.
+*   Piotr Cichon: `pcichon@ethz.ch`
+*   David Dinucu-Jianu: `ddinucu@ethz.ch`
